@@ -3,22 +3,41 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "serve:dev": "cross-env RUN_TYPE=dev vue-cli-service serve",
+    "serve:dev:sentry": "cross-env RUN_TYPE=dev SENTRY=on vue-cli-service serve",
+    "serve:live": "cross-env RUN_TYPE=live vue-cli-service serve",
+    "serve:live:sentry": "cross-env RUN_TYPE=live SENTRY=on vue-cli-service serve",
+    "build:dev": "cross-env RUN_TYPE=dev vue-cli-service build",
+    "build:dev:sentry": "cross-env RUN_TYPE=dev SENTRY=on vue-cli-service build && npm run clear:sourcemap",
+    "build:live": "cross-env RUN_TYPE=live vue-cli-service build",
+    "build:live:sentry": "cross-env RUN_TYPE=live SENTRY=on vue-cli-service build && npm run clear:sourcemap",
+    "lint": "vue-cli-service lint",
+    "clear:sourcemap": "node ./scripts/postbuild.js"
   },
   "dependencies": {
+    "@sentry/vue": "^7.54.0",
     "core-js": "^3.8.3",
-    "vue": "^2.6.14"
+    "vue": "^2.6.14",
+    "vue-class-component": "^7.2.3",
+    "vue-property-decorator": "^9.1.2",
+    "vue-router": "^3.1.6"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
     "@babel/eslint-parser": "^7.12.16",
+    "@sentry/webpack-plugin": "^1.20.1",
+    "@typescript-eslint/eslint-plugin": "^5.4.0",
+    "@typescript-eslint/parser": "^5.4.0",
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-eslint": "~5.0.0",
+    "@vue/cli-plugin-typescript": "^5.0.8",
     "@vue/cli-service": "~5.0.0",
+    "@vue/eslint-config-typescript": "^9.1.0",
+    "cross-env": "^7.0.3",
     "eslint": "^7.32.0",
     "eslint-plugin-vue": "^8.0.3",
+    "fast-glob": "^3.2.12",
+    "typescript": "~4.5.5",
     "vue-template-compiler": "^2.6.14"
   },
   "eslintConfig": {
@@ -28,10 +47,11 @@
     },
     "extends": [
       "plugin:vue/essential",
-      "eslint:recommended"
+      "eslint:recommended",
+      "@vue/typescript"
     ],
     "parserOptions": {
-      "parser": "@babel/eslint-parser"
+      "parser": "@typescript-eslint/parser"
     },
     "rules": {}
   },
